@@ -12,10 +12,10 @@ class ApiRootView(APIView):
             "message": "Welcome to the API!",
             "available_endpoints": {
                 "school": "/api/v1/all/",
-                "admin": "/admin/",
-                "auth": "/auth/",
-                "student": "/api/v1/student/",
-                "guardian": "/api/v1/guardian",
+                "admin": "http://localhost:8000/admin/",
+                "auth": "http://localhost:8000/auth/",
+                "student": "http://localhost:8000/api/v1/student/",
+                "guardian": "http://8000/api/v1/guardian",
             }
         }, status=status.HTTP_200_OK)
 class StudentAPIView (APIView):
@@ -23,6 +23,12 @@ class StudentAPIView (APIView):
         students = Student.objects.all ()
         serializer = StudentSerializer (students, many = True)
         return Response (serializer.data)
+    def post (self, request):
+        serializer = StudentSerializer (data= request.data)
+        if serializer.is_valid ():
+            serializer.save()
+            return Response (serializer.data, status=status.HTTP_201_CREATED)
+        return Response (serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class GuardianAPIView (APIView):
 
@@ -30,6 +36,7 @@ class GuardianAPIView (APIView):
         guardians = Guardian.objects.all ()
         serializer = GuardianSerializer (guardians, many= True)
         return Response (serializer.data)
+     
 
 
 

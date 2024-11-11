@@ -8,13 +8,14 @@ class StudentSerializer (serializers.ModelSerializer):
             'first_name',
             'middle_name',
             'last_name',
-            'date_of_birth'
+            'date_of_birth',
+            'grade'
         ]
 
 class GuardianSerializer (serializers.ModelSerializer):
 
     class Meta:
-        model = Student
+        model = Guardian
         Fieds = [
             'first_name',
             'middle_name',
