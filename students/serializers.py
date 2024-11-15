@@ -5,6 +5,7 @@ class StudentSerializer (serializers.ModelSerializer):
     class Meta:
         model = Student
         fields = [
+            'id',
             'first_name',
             'middle_name',
             'last_name',
@@ -17,6 +18,7 @@ class GuardianSerializer (serializers.ModelSerializer):
     class Meta:
         model = Guardian
         Fieds = [
+            'id',
             'first_name',
             'middle_name',
             'last_name',

@@ -1,41 +1,41 @@
 from django.shortcuts import render
-from rest_framework import status
-from rest_framework.views import APIView
+from rest_framework import generics
 from rest_framework.response import Response
 from .serializers import StudentSerializer, GuardianSerializer
 from .models import Student, Guardian
 
 
-class ApiRootView(APIView):
+class ApiRootView(generics.ListAPIView):
     def get(self, request):
         return Response({
-            "message": "Welcome to the API!",
+            "message": "Welcome to the Campus_7's API!",
             "available_endpoints": {
                 "school": "/api/v1/all/",
                 "admin": "http://localhost:8000/admin/",
                 "auth": "http://localhost:8000/auth/",
-                "student": "http://localhost:8000/api/v1/student/",
-                "guardian": "http://8000/api/v1/guardian",
+                "student": "http://localhost:8000/api/v1/students/",
+                "guardian": "http://8000/api/v1/guardians",
             }
-        }, status=status.HTTP_200_OK)
-class StudentAPIView (APIView):
-    def get (self, request):
-        students = Student.objects.all ()
-        serializer = StudentSerializer (students, many = True)
-        return Response (serializer.data)
-    def post (self, request):
-        serializer = StudentSerializer (data= request.data)
-        if serializer.is_valid ():
-            serializer.save()
-            return Response (serializer.data, status=status.HTTP_201_CREATED)
-        return Response (serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        })
+    
+class StudentsAPIView (generics.ListCreateAPIView):
+    queryset = Student.objects.all ()
+    serializer_class = StudentSerializer
 
-class GuardianAPIView (APIView):
+class StudentAPIView (generics.RetrieveUpdateDestroyAPIView):
+    queryset = Student.objects.all ()
+    serializer_class = StudentSerializer
+    
 
-    def get (self, request):
-        guardians = Guardian.objects.all ()
-        serializer = GuardianSerializer (guardians, many= True)
-        return Response (serializer.data)
+class GuardiansAPIView (generics.ListCreateAPIView):
+    queryset = Student.objects.all ()
+    serializer_class = GuardianSerializer
+    
+class GuardianAPIView (generics.RetrieveUpdateDestroyAPIView):
+    queryset = Student.objects.all ()
+    serializer_class = GuardianSerializer
+
+    
      
 
 
