@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from rest_framework import generics
 from rest_framework.response import Response
+from rest_framework.viewsets import ModelViewSet
+from rest_framework.decorators import action
 from .serializers import StudentSerializer, GuardianSerializer
 from .models import Student, Guardian
 
@@ -14,13 +16,20 @@ class ApiRootView(generics.ListAPIView):
                 "admin": "http://localhost:8000/admin/",
                 "auth": "http://localhost:8000/auth/",
                 "student": "http://localhost:8000/api/v1/students/",
-                "guardian": "http://8000/api/v1/guardians",
+                "guardian": "http://localhost:8000/api/v1/guardians",
             }
         })
+    
+#===================== API V1 ============================
+
     
 class StudentsAPIView (generics.ListCreateAPIView):
     queryset = Student.objects.all ()
     serializer_class = StudentSerializer
+
+    def get_queryset(self):
+        guardian_pk = self.kwargs.get ('pk')
+        return Student.objects.filter (guardian_id=guardian_pk)
 
 class StudentAPIView (generics.RetrieveUpdateDestroyAPIView):
     queryset = Student.objects.all ()
@@ -28,15 +37,40 @@ class StudentAPIView (generics.RetrieveUpdateDestroyAPIView):
     
 
 class GuardiansAPIView (generics.ListCreateAPIView):
-    queryset = Student.objects.all ()
-    serializer_class = GuardianSerializer
-    
-class GuardianAPIView (generics.RetrieveUpdateDestroyAPIView):
-    queryset = Student.objects.all ()
+    queryset = Guardian.objects.all ()
     serializer_class = GuardianSerializer
 
     
-     
+    
+class GuardianAPIView (generics.RetrieveUpdateDestroyAPIView):
+    queryset = Guardian.objects.all ()
+    serializer_class = GuardianSerializer
+
+
+#===================== API V2 ============================
+
+class StudentViewSet (ModelViewSet):
+    queryset = Student.objects.all ()
+    serializer_class = StudentSerializer
+    @action (detail = True, methods = ['get'])
+    def guardian (self,request):
+                guardian = self.get_object()
+                serializer = GuardianSerializer (student.guardian.all (), many = True)
+                return Response (serializer.data)
+
+
+
+
+class GuardianViewSet(ModelViewSet):
+    queryset = Guardian.objects.all()
+    serializer_class = GuardianSerializer
+
+    @action(detail=True, methods=['get'])
+    def student(self, request):
+        guardian = self.get_object()
+        serializer = StudentSerializer(guardian.student.all(), many=True)
+        return Response(serializer.data)  
+
 
 
 

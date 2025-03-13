@@ -19,7 +19,7 @@ class Guardian(PessoaBase):
 
 class Student(PessoaBase):
     grade = models.IntegerField()
-    guardian = models.ForeignKey(Guardian, on_delete=models.CASCADE, null=True)  # A chave estrangeira agora está no Student
+    guardian = models.ForeignKey(Guardian, on_delete=models.CASCADE, null=True, related_name= "students")  # A chave estrangeira agora está no Student
 
     def __str__(self):
         return f'{self.first_name} {self.middle_name} {self.last_name}'

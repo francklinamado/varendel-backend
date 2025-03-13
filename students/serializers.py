@@ -10,20 +10,23 @@ class StudentSerializer (serializers.ModelSerializer):
             'middle_name',
             'last_name',
             'date_of_birth',
-            'grade'
+            'grade',
+            'guardian'
         ]
 
 class GuardianSerializer (serializers.ModelSerializer):
+    #students = serializers.HyperlinkedRelatedField (many=True, read_only=True, view_name='students-detail')
 
     class Meta:
         model = Guardian
-        Fieds = [
+        fields = [
             'id',
             'first_name',
             'middle_name',
             'last_name',
             'date_of_birth',
-            'fiscal_idnum'
+            'fiscal_idnum',
+            'students',
         ]
 
 
