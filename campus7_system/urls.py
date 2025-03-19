@@ -1,6 +1,7 @@
 from django.contrib import admin
 from django.urls import path, include
 from students.urls import router
+from inscriptions.urls import router
 
 urlpatterns = [
 

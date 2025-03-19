@@ -53,22 +53,24 @@ class StudentViewSet (ModelViewSet):
     queryset = Student.objects.all ()
     serializer_class = StudentSerializer
     @action (detail = True, methods = ['get'])
-    def guardian (self,request):
-                guardian = self.get_object()
-                serializer = GuardianSerializer (student.guardian.all (), many = True)
+    def guardians (self,request, pk = None):
+                student = self.get_object()
+                guardians = [student.guardian]
+                serializer = GuardianSerializer (guardians, many = True)
                 return Response (serializer.data)
 
 
 
 
-class GuardianViewSet(ModelViewSet):
+class GuardianViewSet(ModelViewSet):    
     queryset = Guardian.objects.all()
     serializer_class = GuardianSerializer
 
     @action(detail=True, methods=['get'])
-    def student(self, request):
+    def students (self, request, pk = None):
         guardian = self.get_object()
-        serializer = StudentSerializer(guardian.student.all(), many=True)
+        students = guardian.students.all () 
+        serializer = StudentSerializer(students, many=True)
         return Response(serializer.data)  
 
 
