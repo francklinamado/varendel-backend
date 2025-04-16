@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path, include
 from .views import ApiRootView, GuardiansAPIView, GuardianAPIView, StudentsAPIView, StudentAPIView, StudentViewSet, GuardianViewSet
 from rest_framework.routers import SimpleRouter
 
@@ -6,6 +6,7 @@ router = SimpleRouter ()
 router.register ('students', StudentViewSet)
 router.register ('guardians', GuardianViewSet)
 urlpatterns = [
+      path("", include(router.urls)),
     #path ('guardians/',GuardiansAPIView.as_view (),name='guardians' ),
     #path ('guardians/<int:pk>/',GuardianAPIView.as_view (), name = 'guardian'),
     #path ('guardians/<int:pk>/students/',StudentsAPIView.as_view (), name= 'guardian_student'),

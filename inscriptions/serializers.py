@@ -5,9 +5,14 @@ class InscriptionSerializer (serializers.ModelSerializer):
     class Meta:
         model = Inscription
         fields = [
-            'name',
-            'email',
-            'phone',
+            'id',
+            'full_name',
+            'date_of_birth',
+            'idnumber',
+            'phone_number',
+            'email_adress',
+            'fiscal_idnum',
+            'grade',
             'status',
 
         ]

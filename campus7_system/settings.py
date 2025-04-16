@@ -31,7 +31,11 @@ INSTALLED_APPS = [
     'students',
     "rest_framework",
     "inscriptions",
+    "enrollments",
+    'accounts',
 ]
+AUTH_USER_MODEL = 'accounts.User'
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
